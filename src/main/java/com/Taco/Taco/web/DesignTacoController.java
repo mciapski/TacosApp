@@ -2,7 +2,9 @@ package com.Taco.Taco.web;
 
 import com.Taco.Taco.Ingredient;
 import com.Taco.Taco.Taco;
+import com.Taco.Taco.data.IngredientRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +23,12 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequestMapping("/design")
 public class DesignTacoController {
+  private final IngredientRepository ingredientRepository;
+
+  @Autowired
+  public DesignTacoController(IngredientRepository ingredientRepository){
+    this.ingredientRepository=ingredientRepository;
+  }
 
   private List<Ingredient> filterByType(List<Ingredient> ingredients, Ingredient.Type type){
     return ingredients.stream()
@@ -29,18 +38,8 @@ public class DesignTacoController {
 
   @GetMapping
   public String showDesignForm(Model model){
-    List<Ingredient> ingredients = List.of(
-        new Ingredient("FLTO", "pszenna", Ingredient.Type.WRAP),
-        new Ingredient("COTO", "kukurydziana", Ingredient.Type.WRAP),
-        new Ingredient("GRBF", "mielona wołowina", Ingredient.Type.PROTEIN),
-        new Ingredient("CARN", "kawałki mięsa", Ingredient.Type.PROTEIN),
-        new Ingredient("TMTO", "pomidory pokrojone w kostke", Ingredient.Type.VEGGIES),
-        new Ingredient("LETC", "sałata", Ingredient.Type.VEGGIES),
-        new Ingredient("CHED", "cheddar", Ingredient.Type.CHEESY),
-        new Ingredient("JACK", "Monterey Jack", Ingredient.Type.CHEESY),
-        new Ingredient("SLSA", "pikantny sos pomidorowy", Ingredient.Type.SAUCE),
-        new Ingredient("SRCR", "śmietana", Ingredient.Type.SAUCE)
-    );
+    List<Ingredient> ingredients = new ArrayList<>();
+    ingredientRepository.findAll().forEach(i->ingredients.add(i));
     Ingredient.Type[] types = Ingredient.Type.values();
     for (Ingredient.Type type : types) {
       model.addAttribute(type.toString().toLowerCase(), filterByType(ingredients,type));
