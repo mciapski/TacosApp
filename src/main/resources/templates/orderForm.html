@@ -29,22 +29,37 @@
 
     <label for="name">Imię i nazwisko</label>
     <input type="text" name="name" id="name" th:field="*{name}">
+    <span class="validationError"
+          th:if="${#fields.hasErrors('name')}"
+          th:errors="*{name}">Wartość nie może być pusta</span>
     <br/>
 
     <label for="street">Ulica</label>
     <input type="text" id="street" th:field="*{street}">
+    <span class="validationError"
+          th:if="${#fields.hasErrors('street')}"
+          th:errors="*{street}">Wartość nie może być pusta</span>
     <br/>
 
     <label for="city">Miasto</label>
     <input type="text" id="city" th:field="*{city}">
+    <span class="validationError"
+          th:if="${#fields.hasErrors('city')}"
+          th:errors="*{city}">Wartość nie może być pusta</span>
     <br/>
 
     <label for="state">Województwo</label>
     <input type="text" id="state" th:field="*{state}">
+    <span class="validationError"
+          th:if="${#fields.hasErrors('state')}"
+          th:errors="*{state}">Wartość nie może być pusta</span>
     <br/>
 
     <label for="zip">Kod pocztowy</label>
     <input type="text" id="zip" th:field="*{zip}">
+    <span class="validationError"
+          th:if="${#fields.hasErrors('zip')}"
+          th:errors="*{zip}">Wartość nie może być pusta</span>
     <br/>
 
 
@@ -52,14 +67,24 @@
     <h3>Sposób płatności</h3>
     <label for="ccNumber">Numer kart kredytowej</label>
     <input type="text" id="ccNumber" th:field="*{ccNumber}">
+    <span class="validationError"
+          th:if="${#fields.hasErrors('ccNumber')}"
+          th:errors="*{ccNumber}">Bład numeru karty kredytowej</span>
     <br/>
+
 
     <label for="ccExpiration">Data ważności</label>
     <input type="text" id="ccExpiration" th:field="*{ccExpiration}">
+    <span class="validationError"
+          th:if="${#fields.hasErrors('ccExpiration')}"
+          th:errors="*{ccExpiration}">Bład daty ważności karty kredytowej</span>
     <br/>
 
     <label for="ccCVV">Kod CVV</label>
     <input type="text" id="ccCVV" th:field="*{ccCVV}">
+    <span class="validationError"
+          th:if="${#fields.hasErrors('ccCVV')}"
+          th:errors="*{ccCVV}">Nieprawidłowy kod CVV</span>
     <br/>
 
     <input type="submit" value="Złóż zamówienie">

@@ -5,11 +5,13 @@ import com.Taco.Taco.Taco;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,7 +54,10 @@ public class DesignTacoController {
   }
 
   @PostMapping
-  public String processDesign(@ModelAttribute("design") Taco design, Model model){
+  public String processDesign(@Valid @ModelAttribute("design") Taco design, Model model, Errors errors){
+    if(errors.hasErrors()){
+      return "design";
+    }
     //zapisywanie projektu przygotowanego taco
     log.info("Przetwarzanie projektu taco:" + design);
     return "redirect:/orders/current";
